@@ -8,7 +8,7 @@ import asyncio
 
 # ── Project cards data ──────────────────────────────────────────────
 PROJECTS = [
-        {
+    {
         "name": "Patient Intake Agent",
         "tag": "Healthcare AI",
         "desc": "AI agent on personal website representing Pratik — answers questions, captures leads, notifies via phone + email.",
@@ -76,7 +76,6 @@ body, .gradio-container {
     color: var(--text-primary) !important;
 }
 
-/* ── Layout ── */
 .main-wrapper {
     display: grid;
     grid-template-columns: 300px 1fr;
@@ -86,7 +85,6 @@ body, .gradio-container {
     overflow: hidden;
 }
 
-/* ── Sidebar ── */
 .sidebar {
     background: var(--bg-secondary);
     border-right: 1px solid var(--border);
@@ -153,7 +151,6 @@ body, .gradio-container {
     margin-bottom: 10px;
 }
 
-/* ── Project Cards ── */
 .project-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -217,7 +214,6 @@ body, .gradio-container {
     color: var(--text-muted);
 }
 
-/* ── Chat Area ── */
 .chat-wrapper {
     display: flex;
     flex-direction: column;
@@ -249,29 +245,11 @@ body, .gradio-container {
     margin-top: 2px;
 }
 
-/* ── Gradio Chat Overrides ── */
 .gradio-chatbot {
     background: transparent !important;
     border: none !important;
 }
 
-.message.user {
-    background: #0D1F2D !important;
-    border: 1px solid var(--border-bright) !important;
-    border-radius: 12px 12px 4px 12px !important;
-    color: var(--text-primary) !important;
-    font-size: 0.88rem !important;
-}
-
-.message.bot {
-    background: var(--bg-card) !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 12px 12px 12px 4px !important;
-    color: var(--text-primary) !important;
-    font-size: 0.88rem !important;
-}
-
-/* ── Input ── */
 .gr-text-input, textarea {
     background: var(--bg-input) !important;
     border: 1px solid var(--border) !important;
@@ -281,13 +259,6 @@ body, .gradio-container {
     font-size: 0.88rem !important;
 }
 
-.gr-text-input:focus, textarea:focus {
-    border-color: var(--border-bright) !important;
-    box-shadow: 0 0 0 2px rgba(0, 178, 255, 0.1) !important;
-    outline: none !important;
-}
-
-/* ── Submit Button ── */
 button.primary {
     background: linear-gradient(135deg, #00FFB2, #00B2FF) !important;
     border: none !important;
@@ -300,43 +271,28 @@ button.primary {
     transition: opacity 0.2s !important;
 }
 
-button.primary:hover {
-    opacity: 0.85 !important;
-}
+button.primary:hover { opacity: 0.85 !important; }
 
-/* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
 
-/* ── Hide Gradio branding ── */
 footer { display: none !important; }
 .built-with { display: none !important; }
 """
 
 async def chat(message: str, history: list) -> str:
-    messages = []
-    for h in history:
-        messages.append({"role": "user", "content": h[0]})
-        if h[1]:
-            messages.append({"role": "assistant", "content": h[1]})
-    
-    result = await Runner.run(
-        coordinator,
-        message,
-    )
+    result = await Runner.run(coordinator, message)
     return result.final_output
-
 
 def chat_sync(message: str, history: list) -> str:
     return asyncio.run(chat(message, history))
 
-
 # ── Build UI ────────────────────────────────────────────────────────
-with gr.Blocks(css=CUSTOM_CSS, title="Pratik Lamsal — AI Engineer") as demo:
-    
+with gr.Blocks(title="Pratik Lamsal — AI Engineer") as demo:
+
     with gr.Row(elem_classes="main-wrapper"):
-        
+
         # ── Sidebar ──
         with gr.Column(elem_classes="sidebar", scale=0, min_width=300):
             gr.HTML(f"""
@@ -348,14 +304,12 @@ with gr.Blocks(css=CUSTOM_CSS, title="Pratik Lamsal — AI Engineer") as demo:
                 <div class="profile-title">AI · Cloud · Agentic Systems</div>
                 <div class="status-dot">Available for collaboration</div>
             </div>
-            
             <div class="section-label">Projects</div>
             {build_project_cards()}
-            
             <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--border)">
                 <div class="section-label">Quick actions</div>
                 <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
-                    <div class="project-card" style="padding:10px 14px;cursor:pointer" 
+                    <div class="project-card" style="padding:10px 14px;cursor:pointer"
                          onclick="document.querySelector('textarea').value='I would like to get in touch with Pratik'">
                         <span style="font-size:0.75rem;color:var(--accent-green);font-family:Space Mono,monospace">
                             ✉ GET IN TOUCH
@@ -370,7 +324,7 @@ with gr.Blocks(css=CUSTOM_CSS, title="Pratik Lamsal — AI Engineer") as demo:
                 </div>
             </div>
             """)
-        
+
         # ── Chat ──
         with gr.Column(elem_classes="chat-wrapper", scale=1):
             gr.HTML("""
@@ -383,42 +337,39 @@ with gr.Blocks(css=CUSTOM_CSS, title="Pratik Lamsal — AI Engineer") as demo:
                      color:var(--accent-green);letter-spacing:2px">● LIVE</div>
             </div>
             """)
-            
+
             chatbot = gr.Chatbot(
-            value=[],
-            height=520,
-            show_label=False,
-            type="messages",
-            elem_classes="gradio-chatbot",
-            placeholder="<div style='text-align:center;color:#3A5068;font-family:Space Mono,monospace;font-size:0.75rem;padding:40px'>Ask about projects, background, or collaboration...</div>",
+                value=[],
+                height=520,
+                show_label=False,
+                elem_classes="gradio-chatbot",
             )
-            
+
             with gr.Row():
                 msg = gr.Textbox(
-                    placeholder="Ask about CareLoop, trading agent, belonging platform...",
+                    placeholder="Ask about projects, background, or collaboration...",
                     show_label=False,
                     scale=5,
                     container=False,
                 )
                 submit = gr.Button("SEND →", scale=1, variant="primary")
-            
+
             gr.Examples(
                 examples=[
                     "What projects are you working on?",
-                    "Tell me about the CareLoop healthcare platform",
+                    "Tell me about the Patient Intake Agent",
                     "How can I collaborate with Pratik?",
                     "What's Pratik's background in agentic AI?",
                 ],
                 inputs=msg,
                 label="",
             )
-            
+
             def respond(message, history):
                 response = chat_sync(message, history)
-                history.append({"role": "user", "content": message})
-                history.append({"role": "assistant", "content": response})
+                history.append((message, response))
                 return "", history
-            
+
             submit.click(respond, [msg, chatbot], [msg, chatbot])
             msg.submit(respond, [msg, chatbot], [msg, chatbot])
 
@@ -428,4 +379,5 @@ if __name__ == "__main__":
         server_name="0.0.0.0",
         server_port=7860,
         share=False,
+        css=CUSTOM_CSS,
     )
