@@ -2,4 +2,4 @@ openai-agents
 python-dotenv
 pypdf
 requests
-gradio
+gradio==4.44.0
