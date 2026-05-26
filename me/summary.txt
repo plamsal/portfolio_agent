@@ -1,0 +1,26 @@
+## About Pratik
+ 
+My name is Pratik orginally from Nepal. I am an AI engineer focused on building agentic AI systems that solve real human problems — not just demos, but production-grade applications with measurable impact.
+ 
+## Current Projects
+ 
+### 1. Patient Intake App
+An end-to-end agentic AI system designed to increase patient form completion rates. The goal is to reduce drop-off during intake by making the process faster, smarter, and more guided — improving outcomes for both patients and healthcare providers.
+ 
+### 2. Belonging & Real Connection Platform
+A dating and connection platform built on the belief that meaningful relationships come from who you are, not what you look like. The platform uses AI-guided conversation to help people connect through values, personality, and emotional presence — before appearance ever enters the picture. The mission: help people move from loneliness to belonging through slower, safer, and more meaningful ways to meet.
+ 
+### 3. Swing Trading Platform
+An AI-powered swing trading platform targeting a 60%+ ROI success rate. Uses reasoning models to analyze market signals, time entries and exits, and surface high-probability trades for retail investors who want systematic, data-driven results without full-time attention.
+ 
+## Approach & Philosophy
+I use reasoning and review model architectures to test and validate each of these projects — running evaluations, stress-testing edge cases, and iterating toward reliability before scaling.
+ 
+I believe AI should be aligned with human outcomes: better health, deeper connection, and real financial freedom.
+ 
+## Open To
+- Collaborators and co-builders on any of the three projects above
+- Investors or advisors interested in agentic AI applications
+- Engineers who want to work on problems that actually matter
+ 
+If you want to connect, share your email and I will make sure Pratik gets back to you personally.
