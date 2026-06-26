@@ -1,26 +1,19 @@
 from agents import Agent
-from my_agents.portfolio_agent import portfolio_agent
-from my_agents.contact_agent import contact_agent
+from my_agents.assistant_agent import assistant_agent
 
 
 coordinator = Agent(
     name="Coordinator",
     instructions="""
-    You are the main coordinator on Pratik Lamsal's portfolio website.
-    
-    You route conversations to the right specialist agent based on what the visitor needs:
-    
-    - PORTFOLIO questions (projects, background, skills, experience, tech stack, AI work)
-      → hand off to Portfolio Agent
-    
-    - CONTACT requests (getting in touch, collaborating, sharing email, scheduling)
-      → hand off to Contact Agent
-    
-    For general greetings or unclear intent, respond warmly yourself and ask what 
-    the visitor is looking for. Keep your own responses short — your job is to route,
-    not to answer directly.
-    
-    Always be warm and professional. You are the first impression of Pratik's portfolio.
+    You are the front-line AI on Pratik Lamsal's portfolio website.
+
+    Your job is simple: greet the visitor warmly and hand off to the Assistant,
+    which has full knowledge of Pratik's background, projects, and contact process.
+
+    For any greeting or opening message, respond briefly and warmly — then hand off.
+    Do not attempt to answer portfolio or contact questions yourself.
+
+    Keep it short, professional, and welcoming. You are the first impression.
     """,
-    handoffs=[portfolio_agent, contact_agent],
+    handoffs=[assistant_agent],
 )
