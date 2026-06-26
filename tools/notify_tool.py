@@ -2,42 +2,38 @@ import os
 import smtplib
 import requests
 from email.mime.text import MIMEText
-from agents import function_tool
 
 
-@function_tool
-def notify_phone(message: str) -> dict:
-    """
-    Send a push notification to Pratik's phone via Pushover.
-    Use this when someone wants to get in touch or leaves their contact details.
-    """
-    response = requests.post(
-        "https://api.pushover.net/1/messages.json",
-        data={
-            "token": os.getenv("PUSHOVER_TOKEN"),
-            "user":  os.getenv("PUSHOVER_USER"),
-            "message": message,
-        }
-    )
-    return {"status": "sent", "code": response.status_code}
-
-
-@function_tool
-def notify_email(subject: str, body: str) -> dict:
-    """
-    Send an email notification to Pratik.
-    Use this when someone wants to get in touch or leaves their contact details.
-    """
-    msg = MIMEText(body)
-    msg["Subject"] = subject
-    msg["From"]    = os.getenv("NOTIFY_EMAIL_FROM")
-    msg["To"]      = os.getenv("NOTIFY_EMAIL_TO")
-
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-        server.login(
-            os.getenv("NOTIFY_EMAIL_FROM"),
-            os.getenv("NOTIFY_EMAIL_PASSWORD")
+def notify_phone(message: str) -> None:
+    """Send a Pushover push notification. Silently fails if not configured."""
+    token = os.getenv("PUSHOVER_TOKEN")
+    user = os.getenv("PUSHOVER_USER")
+    if not token or not user:
+        return
+    try:
+        requests.post(
+            "https://api.pushover.net/1/messages.json",
+            data={"token": token, "user": user, "message": message},
+            timeout=5,
         )
-        server.send_message(msg)
+    except Exception:
+        pass
 
-    return {"status": "sent"}
+
+def notify_email(subject: str, body: str) -> None:
+    """Send a Gmail notification. Silently fails if not configured or credentials are wrong."""
+    from_addr = os.getenv("NOTIFY_EMAIL_FROM")
+    to_addr = os.getenv("NOTIFY_EMAIL_TO")
+    password = os.getenv("NOTIFY_EMAIL_PASSWORD")
+    if not from_addr or not to_addr or not password:
+        return
+    try:
+        msg = MIMEText(body)
+        msg["Subject"] = subject
+        msg["From"] = from_addr
+        msg["To"] = to_addr
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=10) as server:
+            server.login(from_addr, password)
+            server.send_message(msg)
+    except Exception:
+        pass
