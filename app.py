@@ -333,12 +333,23 @@ footer { display: none !important; }
 .built-with { display: none !important; }
 """
 
+
 async def chat(message: str, history: list) -> str:
-    result = await Runner.run(coordinator, message)
+    # Build full message history so the agent remembers context across turns
+    messages = []
+    for user_msg, assistant_msg in history:
+        messages.append({"role": "user", "content": user_msg})
+        if assistant_msg:
+            messages.append({"role": "assistant", "content": assistant_msg})
+    messages.append({"role": "user", "content": message})
+
+    result = await Runner.run(coordinator, messages)
     return result.final_output
+
 
 def chat_sync(message: str, history: list) -> str:
     return asyncio.run(chat(message, history))
+
 
 # ── Build UI ────────────────────────────────────────────────────────────────────────
 with gr.Blocks(title="Pratik Lamsal — AI Engineer", css=CUSTOM_CSS) as demo:

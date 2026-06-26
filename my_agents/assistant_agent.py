@@ -8,8 +8,8 @@ from tools.notify_tool import notify_phone, notify_email
 def record_contact(name: str, contact: str, notes: str = "") -> dict:
     """
     Save a visitor's contact details when they want to connect with Pratik.
-    Call this as soon as you have their name and either a phone number or email.
-    Include any context from the conversation as notes.
+    Call this as soon as you have their name and ANY contact method (phone number OR email).
+    Do not wait for both. One is enough. Include conversation context as notes.
     """
     message = f"New contact from portfolio:\nName: {name}\nContact: {contact}\nNotes: {notes}"
     notify_phone(message)
@@ -24,7 +24,8 @@ def record_contact(name: str, contact: str, notes: str = "") -> dict:
 def record_unknown_question(question: str) -> dict:
     """
     Log a question that could not be answered from the available context.
-    Use this whenever a visitor asks something you cannot confidently answer.
+    Only use this for questions genuinely outside Pratik's portfolio scope.
+    Never use this when a visitor is simply providing their name, number, or contact info.
     """
     notify_phone(f"Unanswered question on portfolio:\n{question}")
     return {"status": "recorded"}
@@ -85,16 +86,22 @@ assistant_agent = Agent(
 
     2. CAPTURE CONTACT DETAILS
        If a visitor wants to connect, collaborate, invest, or follow up:
-       - Ask for their name and phone number (email also welcome)
-       - Once you have both, call record_contact with their details and any context
-       - Confirm warmly that Pratik will personally review their message and reach out
-         if there is a good fit. Do not promise specific timelines or commitments.
+       - Ask for their name and a way to reach them (phone number OR email — either is fine)
+       - The moment you have a name and ANY contact method, immediately call record_contact
+         — do not ask for more information, do not ask for both phone and email
+       - If a visitor provides their name and phone in the same message, save it immediately
+       - If they provide name across multiple messages, remember what they already shared
+         and only ask for what is still missing
+       - After saving, confirm warmly: "Thanks [name] — Pratik will personally review
+         your message and reach out if there's a good fit."
+       - Do not promise specific timelines, partnerships, or commitments
 
     == GUARDRAIL ==
-    If a visitor asks something completely unrelated to Pratik, his work, agentic AI,
-    healthcare, or collaboration — or if the question is unclear, unreasonable, or
-    outside the scope of this portfolio — do NOT attempt to answer it.
-    Instead, respond graciously:
+    Only trigger this if a visitor asks something completely unrelated to Pratik, his work,
+    agentic AI, healthcare, collaboration, or the conversation so far.
+    NEVER trigger this when a visitor is simply answering a question you asked them
+    (e.g. giving their name, number, or email).
+    If genuinely off-topic, respond graciously:
     "That's a bit outside what I can help with here. I'd love to make sure Pratik
     connects with you directly though — could you share your name and phone number?
     He'll reach out to you."
