@@ -6,33 +6,35 @@ from agents import Runner
 from coordinator import coordinator
 import asyncio
 
+
 # ── Project cards data ──────────────────────────────────────────────
 PROJECTS = [
     {
-        "name": "Patient Intake Agent",
-        "tag": "Healthcare AI",
-        "desc": "AI agent on personal website representing Pratik — answers questions, captures leads, notifies via phone + email.",
-        "stack": "OpenAI · Gradio · Pushover",
+        "name": "Laxora AI",
+        "tag": "Active · Healthcare AI",
+        "desc": "Active healthcare AI project focused on safe scheduling and guided patient intake — helping clinics reduce front-office friction and improve patient experience.",
+        "stack": "Agentic AI · AWS · Healthcare Automation",
         "color": "#00FFB2",
         "icon": "🏥",
     },
     {
         "name": "Stock Intelligence",
-        "tag": "Fintech AI",
-        "desc": "4-Lambda serverless trading workflow. Discovery Sunday, silent monitor Tue–Fri.",
+        "tag": "Brainstorming · Fintech AI",
+        "desc": "Brainstorming-stage idea for an AI-powered stock intelligence workflow that discovers market opportunities and monitors signals automatically.",
         "stack": "Lambda · S3 · Telegram",
         "color": "#00B2FF",
         "icon": "📈",
     },
     {
         "name": "Belonging",
-        "tag": "Social AI",
-        "desc": "B2B platform helping universities & therapists reduce loneliness at scale.",
-        "stack": "Early Stage · B2B",
+        "tag": "Brainstorming · Social AI",
+        "desc": "Brainstorming-stage concept for a B2B platform helping universities, therapists, and organizations reduce loneliness at scale.",
+        "stack": "Early Stage · B2B · Social Impact",
         "color": "#FF6B6B",
         "icon": "🤝",
     },
 ]
+
 
 def build_project_cards():
     cards_html = ""
