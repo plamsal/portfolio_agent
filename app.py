@@ -7,31 +7,31 @@ from coordinator import coordinator
 import asyncio
 
 
-# ── Project cards data ──────────────────────────────────────────────
+# ── Project cards data ────────────────────────────────────────────────────────────────────
 PROJECTS = [
     {
         "name": "Laxora AI",
-        "tag": "Active · Healthcare AI",
-        "desc": "Active healthcare AI project focused on safe scheduling and guided patient intake — helping clinics reduce front-office friction and improve patient experience.",
-        "stack": "Agentic AI · AWS · Healthcare Automation",
+        "tag": "Active",
+        "status": "active",
+        "desc": "An agentic AI system for healthcare scheduling and patient intake — reducing front-office friction and creating a smarter, more human patient experience.",
+        "stack": "Agentic AI  ·  AWS  ·  Healthcare Automation",
         "color": "#00FFB2",
-        "icon": "🏥",
     },
     {
         "name": "Stock Intelligence",
-        "tag": "Brainstorming · Fintech AI",
-        "desc": "Brainstorming-stage idea for an AI-powered stock intelligence workflow that discovers market opportunities and monitors signals automatically.",
-        "stack": "Lambda · S3 · Telegram",
+        "tag": "Concept Stage",
+        "status": "concept",
+        "desc": "An AI-powered workflow that discovers market opportunities and monitors signals automatically — bringing institutional-grade intelligence to individual investors.",
+        "stack": "Lambda  ·  S3  ·  Telegram",
         "color": "#00B2FF",
-        "icon": "📈",
     },
     {
         "name": "Belonging",
-        "tag": "Brainstorming · Social AI",
-        "desc": "Brainstorming-stage concept for a B2B platform helping universities, therapists, and organizations reduce loneliness at scale.",
-        "stack": "Early Stage · B2B · Social Impact",
+        "tag": "Concept Stage",
+        "status": "concept",
+        "desc": "A B2B platform helping universities, therapists, and organizations reduce loneliness at scale through AI-powered connection and community tools.",
+        "stack": "Early Stage  ·  B2B  ·  Social Impact",
         "color": "#FF6B6B",
-        "icon": "🤝",
     },
 ]
 
@@ -39,13 +39,18 @@ PROJECTS = [
 def build_project_cards():
     cards_html = ""
     for p in PROJECTS:
+        active_class = " active-card" if p["status"] == "active" else ""
+        status_html = (
+            f'<span class="status-badge active-badge">ACTIVE</span>'
+            if p["status"] == "active"
+            else f'<span class="status-badge concept-badge">CONCEPT STAGE</span>'
+        )
         cards_html += f"""
-        <div class="project-card" onclick="document.querySelector('textarea').value='Tell me about {p['name']}'; document.querySelector('textarea').dispatchEvent(new Event('input'))">
+        <div class="project-card{active_class}" onclick="document.querySelector('textarea').value='Tell me about {p['name']}'; document.querySelector('textarea').dispatchEvent(new Event('input'))">
             <div class="card-header">
-                <span class="card-icon">{p['icon']}</span>
-                <span class="card-tag" style="color:{p['color']}">{p['tag']}</span>
+                <div class="card-name">{p['name']}</div>
+                {status_html}
             </div>
-            <div class="card-name">{p['name']}</div>
             <div class="card-desc">{p['desc']}</div>
             <div class="card-stack">{p['stack']}</div>
         </div>
@@ -179,20 +184,26 @@ body, .gradio-container {
     background: #141D27;
 }
 
+.active-card {
+    border-color: rgba(0, 255, 178, 0.25);
+    background: #0D1A14;
+}
+
+.active-card::before {
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 178, 0.4), transparent);
+}
+
+.active-card:hover {
+    border-color: rgba(0, 255, 178, 0.5);
+    background: #0F1E17;
+}
+
 .card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 6px;
-}
-
-.card-icon { font-size: 1rem; }
-
-.card-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    margin-bottom: 8px;
+    gap: 8px;
 }
 
 .card-name {
@@ -200,19 +211,40 @@ body, .gradio-container {
     font-weight: 700;
     font-size: 0.95rem;
     color: var(--text-primary);
-    margin-bottom: 5px;
+}
+
+.status-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 1px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    white-space: nowrap;
+    font-weight: 700;
+}
+
+.active-badge {
+    background: rgba(0, 255, 178, 0.12);
+    color: var(--accent-green);
+    border: 1px solid rgba(0, 255, 178, 0.3);
+}
+
+.concept-badge {
+    background: rgba(107, 138, 158, 0.08);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
 }
 
 .card-desc {
     font-size: 0.72rem;
     color: var(--text-secondary);
-    line-height: 1.5;
+    line-height: 1.55;
     margin-bottom: 8px;
 }
 
 .card-stack {
     font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     color: var(--text-muted);
 }
 
@@ -245,6 +277,24 @@ body, .gradio-container {
     letter-spacing: 2px;
     text-transform: uppercase;
     margin-top: 2px;
+}
+
+.live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent-green);
+    letter-spacing: 2px;
+}
+
+.live-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
 }
 
 .gradio-chatbot {
@@ -290,8 +340,8 @@ async def chat(message: str, history: list) -> str:
 def chat_sync(message: str, history: list) -> str:
     return asyncio.run(chat(message, history))
 
-# ── Build UI ────────────────────────────────────────────────────────
-with gr.Blocks(title="Pratik Lamsal — AI Engineer") as demo:
+# ── Build UI ────────────────────────────────────────────────────────────────────────
+with gr.Blocks(title="Pratik Lamsal — AI Engineer", css=CUSTOM_CSS) as demo:
 
     with gr.Row(elem_classes="main-wrapper"):
 
@@ -301,27 +351,24 @@ with gr.Blocks(title="Pratik Lamsal — AI Engineer") as demo:
             <div class="profile-section">
                 <div style="width:64px;height:64px;background:linear-gradient(135deg,#00FFB2,#00B2FF);
                      border-radius:50%;margin:0 auto;display:flex;align-items:center;
-                     justify-content:center;font-size:1.6rem;">P</div>
+                     justify-content:center;font-size:1.6rem;font-family:'Syne',sans-serif;
+                     font-weight:800;color:#080B0F;">P</div>
                 <div class="profile-name">Pratik Lamsal</div>
-                <div class="profile-title">AI · Cloud · Agentic Systems</div>
-                <div class="status-dot">Available for collaboration</div>
+                <div class="profile-title">AI  ·  Cloud  ·  Agentic Systems</div>
+                <div class="status-dot">Open to collaboration</div>
             </div>
             <div class="section-label">Projects</div>
             {build_project_cards()}
             <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--border)">
-                <div class="section-label">Quick actions</div>
+                <div class="section-label">Quick Actions</div>
                 <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
                     <div class="project-card" style="padding:10px 14px;cursor:pointer"
-                         onclick="document.querySelector('textarea').value='I would like to get in touch with Pratik'">
-                        <span style="font-size:0.75rem;color:var(--accent-green);font-family:Space Mono,monospace">
-                            ✉ GET IN TOUCH
-                        </span>
+                         onclick="document.querySelector('textarea').value='I would like to get in touch with Pratik'; document.querySelector('textarea').dispatchEvent(new Event('input'))">
+                        <span style="font-size:0.75rem;color:var(--accent-green);font-family:Space Mono,monospace;letter-spacing:1px">GET IN TOUCH</span>
                     </div>
                     <div class="project-card" style="padding:10px 14px;cursor:pointer"
-                         onclick="document.querySelector('textarea').value='What is Pratik\\'s background in AI?'">
-                        <span style="font-size:0.75rem;color:var(--accent-blue);font-family:Space Mono,monospace">
-                            ◈ BACKGROUND & SKILLS
-                        </span>
+                         onclick="document.querySelector('textarea').value='What is Pratik\'s background in AI?'; document.querySelector('textarea').dispatchEvent(new Event('input'))">
+                        <span style="font-size:0.75rem;color:var(--accent-blue);font-family:Space Mono,monospace;letter-spacing:1px">BACKGROUND & SKILLS</span>
                     </div>
                 </div>
             </div>
@@ -333,10 +380,12 @@ with gr.Blocks(title="Pratik Lamsal — AI Engineer") as demo:
             <div class="chat-header">
                 <div>
                     <div class="chat-title">Ask me anything</div>
-                    <div class="chat-subtitle">Powered by multi-agent AI · GPT-4o</div>
+                    <div class="chat-subtitle">AI Assistant  ·  Agentic System</div>
                 </div>
-                <div style="font-family:Space Mono,monospace;font-size:0.6rem;
-                     color:var(--accent-green);letter-spacing:2px">● LIVE</div>
+                <div class="live-indicator">
+                    <div class="live-dot"></div>
+                    LIVE
+                </div>
             </div>
             """)
 
@@ -349,19 +398,19 @@ with gr.Blocks(title="Pratik Lamsal — AI Engineer") as demo:
 
             with gr.Row():
                 msg = gr.Textbox(
-                    placeholder="Ask about projects, background, or collaboration...",
+                    placeholder="Ask about Laxora AI, Pratik's background, or how to collaborate...",
                     show_label=False,
                     scale=5,
                     container=False,
                 )
-                submit = gr.Button("SEND →", scale=1, variant="primary")
+                submit = gr.Button("SEND", scale=1, variant="primary")
 
             gr.Examples(
                 examples=[
-                    "What projects are you working on?",
-                    "Tell me about the Patient Intake Agent",
-                    "How can I collaborate with Pratik?",
-                    "What's Pratik's background in agentic AI?",
+                    "What is Laxora AI and what problem does it solve?",
+                    "What is Pratik's background in agentic AI?",
+                    "I'd like to collaborate with Pratik — how do I reach him?",
+                    "What makes Laxora AI different from other healthcare tools?",
                 ],
                 inputs=msg,
                 label="",
@@ -381,5 +430,4 @@ if __name__ == "__main__":
         server_name="0.0.0.0",
         server_port=7860,
         share=False,
-        css=CUSTOM_CSS,
     )
