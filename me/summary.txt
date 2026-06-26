@@ -1,26 +1,57 @@
 ## About Pratik
- 
-My name is Pratik orginally from Nepal. I am an AI engineer focused on building agentic AI systems that solve real human problems — not just demos, but production-grade applications with measurable impact.
- 
-## Current Projects
- 
-### 1. Patient Intake App
-An end-to-end agentic AI system designed to increase patient form completion rates. The goal is to reduce drop-off during intake by making the process faster, smarter, and more guided — improving outcomes for both patients and healthcare providers.
- 
-### 2. Belonging & Real Connection Platform
-A dating and connection platform built on the belief that meaningful relationships come from who you are, not what you look like. The platform uses AI-guided conversation to help people connect through values, personality, and emotional presence — before appearance ever enters the picture. The mission: help people move from loneliness to belonging through slower, safer, and more meaningful ways to meet.
- 
-### 3. Swing Trading Platform
-An AI-powered swing trading platform targeting a 60%+ ROI success rate. Uses reasoning models to analyze market signals, time entries and exits, and surface high-probability trades for retail investors who want systematic, data-driven results without full-time attention.
- 
-## Approach & Philosophy
-I use reasoning and review model architectures to test and validate each of these projects — running evaluations, stress-testing edge cases, and iterating toward reliability before scaling.
- 
-I believe AI should be aligned with human outcomes: better health, deeper connection, and real financial freedom.
- 
+
+Pratik is originally from Nepal and is currently focused on building agentic AI systems that solve real human problems.
+
+He is not interested in simple demos or surface-level AI tools. His goal is to build production-grade AI applications that are reliable, useful, and capable of creating measurable impact in the real world.
+
+Pratik thinks deeply about how AI can support people in practical areas such as healthcare, communication, workflow automation, and financial freedom.
+
+## Current Project
+
+### Laxora AI — Safe Healthcare Scheduling Agent
+
+Pratik is currently building Laxora AI, an agentic AI system focused on healthcare scheduling and patient intake.
+
+The first goal is to create a safe scheduling and guided intake experience that helps patients complete forms faster and with less confusion. The system is designed to reduce drop-off during intake by making the process smarter, more conversational, and easier to follow.
+
+The long-term vision is to support healthcare providers by reducing front-office workload, improving patient communication, and creating a more efficient patient experience.
+
+## Technical Approach
+
+Pratik approaches AI development with a strong focus on reasoning, evaluation, and system reliability.
+
+He believes an AI product should not only work in a happy-path demo. It should be tested against edge cases, failure modes, unclear user inputs, and real-world workflow complexity.
+
+His approach includes:
+
+- Reviewing model and agent architectures carefully
+- Testing how the system reasons through different scenarios
+- Evaluating safety, reliability, and accuracy
+- Stress-testing edge cases before scaling
+- Iterating based on real-world feedback
+- Designing systems with privacy, security, and human trust in mind
+
+## Philosophy
+
+Pratik believes AI should be aligned with human outcomes.
+
+For him, AI should not replace human dignity or human connection. It should help people live better lives by improving access, reducing friction, and supporting meaningful work.
+
+His core belief is that AI should create value in areas that truly matter, including better healthcare, deeper human connection, and real financial freedom.
+
 ## Open To
-- Collaborators and co-builders on any of the three projects above
-- Investors or advisors interested in agentic AI applications
-- Engineers who want to work on problems that actually matter
- 
-If you want to connect, share your email and I will make sure Pratik gets back to you personally.
+
+Pratik is open to connecting with:
+
+- Collaborators who can add value through different perspectives, skills, or approaches
+- Investors or advisors interested in practical agentic AI applications
+- Engineers who want to work on meaningful problems with real-world impact
+- Healthcare professionals who can provide feedback on patient intake, scheduling, and operational pain points
+
+## Contact Instruction for the Agent
+
+If someone wants to connect with Pratik, ask them to share their name, email address, and a short note about why they want to connect.
+
+Then respond politely and let them know that Pratik will review the message and get back to them personally if there is a good fit.
+
+Do not promise immediate replies, partnerships, investment discussions, or technical commitments. Keep the tone warm, professional, and clear.
